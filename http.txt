@@ -1,0 +1,49 @@
+0.http请求与响应公共的头
+
+    Content-type： 请求体/响应体的类型，如：application/json，text/plain
+    Content-length：请求体/响应体的长度，以字节为单位
+    Content-Encoding：请求体或者响应体的编码格式
+    Accept-Encoding: 告诉对方我也接受的Content-Encoding，一般为gzip, deflate
+    Accept： 说明接受的类型，可以用多个值用逗号隔开
+    ETag：给当前的资源进行标识，用于缓存控制。
+    Cache-Control：取值有有很多种的类型，比如：pulice、no-cache、max-age=xxx，用于缓存的设置。
+
+1.http请求
+
+    a: http请求有 请求行 请求头 与请求体。
+    （1）请求行包括：三部分，分别为 请求方法 请求地址 以及协议的版本 例子：GET/WWW.BAIDU.COM/1.1
+
+    （2）请求头可以传递一些附加的信息，格式为键值对的格式，每个键值对后面都有一个空格。
+        常见的请求头部：
+        Authorization: 用于设置身份认证信息
+        User-Agent：浏览器的类型和版本
+        If-Modified-Since：值为上一次服务器返回的Last-Modified值，用于确定某个资源是否被更改过，没有更改过就从缓存中读取。
+        Accept-Language：zh-CN
+        If-None-Match：值为上一次服务器返回的ETag值
+        Cookie：已有的Cookie
+        Referer：标识请求引用自哪个地址，比如你从页面A跳转到页面B是，值为页面A的地址
+        Host：请求的主机和端口号
+
+    （3）请求体
+        请求体又称请求正文，是post请求方式中的请求参数，以key=value形式进行存储，多个请求参数之间用&连接
+    
+2.http响应
+
+    a: http响应有 响应行 响应头 与响应体
+    （1）请求行：状态码
+        1xx：提示信息——表示请求已接受，继续处理
+        2xx：用于表示请求已被成功接收、理解、接收
+        3xx：用于表示资源（网页等）被永久转移到其他url，也就是所谓的重定向
+        4xx：客户端错误——请求有语法错误或者请求无法实现
+        5xx：服务器端错误——服务器未能实现合法的请求
+    
+    （2）响应头：同样可用于传递一些附加信息
+        Date：服务器的日期
+        Last-Modified：该资源最后被修改的时间
+        Transfer-Encoding：取值一般为 chunked，出现在 Content-Length 不能确定的情况下，表示服务器不知道响应板体的数据大小，一般同时出现Content-Encoding响应头
+        Set-Cookie：设置Cookie
+        Location：重定向到另一个 URL，如输入浏览器就输入 baidu.com 回车，会自动跳转到www.baidu.com 就是通过这个响应头控制的
+        Server：后台服务器
+    
+    （3）响应体：
+        响应体也就是网页的正文内容，一般在响应头中会用 Content-Length 来明确响应体的长度，便于浏览器接收，对于大数据量的正文信息，也会使用 chunked 的编码方式。
