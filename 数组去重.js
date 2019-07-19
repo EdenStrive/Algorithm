@@ -33,7 +33,7 @@ Array.prototype.unique = function(){
 
 //先排序，后比较 这种方法有限制，只能用于全为数字的比较，速度比第一种快，比第二种慢，但是空间占用没有第二种大
 Array.prototype.sorts = function(){
-    this.sort()
+    this.sort((a,b)=> a-b)
     let newArr = [this[0]]
     for (let i = 1; i < this.length; i++) {
         if (this[i] !== newArr[this.length-1]) {
