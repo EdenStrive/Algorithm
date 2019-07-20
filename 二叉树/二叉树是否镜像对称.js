@@ -13,7 +13,7 @@ let tree = {
             right:null
         },
         right:{
-            value:0,
+            value:12,
             left:null,
             right:null
         }
@@ -37,29 +37,42 @@ let tree = {
     }
 }
 //存在bug
-function isSymmetry(){
-    if (arguments[0] && arguments[1]) {
+function isSymmetry(leftTrees,rightTrees){
+
         //对比左右两子树的是否为对称
-        let leftTree = arguments[0]
-        let rightTree = arguments[1]
+        let leftTree = leftTrees
+        let rightTree = rightTrees
         //两个相对应的节点是否相等。
+        if (leftTree == null && rightTree == null) {
+            return true
+        }
         if (leftTree.value !== rightTree.value) {
             return false
         }
-
-    }else{
-        let tree = arguments[0]
-        if (tree.left !== null && tree.right !== null) {
-            return isSymmetry( tree.left , tree.right )
-        }else{
+        //两个子树的左右节点都为null，那么该部分就是镜像对称
+        if ( leftTree.value == rightTree.value && leftTree.left==null && leftTree.right==null && rightTree.left==null && rightTree.right==null) {
+            return true
+        }
+        if ((leftTree.left == null && rightTree.right !== null)||(leftTree.left !== null && rightTree.right == null)) {
             return false
         }
+        if ((leftTree.right == null && rightTree.left !== null)||(leftTree.right !== null && rightTree.left == null)) {
+            return false
+        }
+
+        return isSymmetry(leftTree.left , rightTree.right) && isSymmetry(leftTree.right , rightTree.left)
+
+}
+
+function partOne(tree) {
+    if (tree.left !== null && tree.right !== null) {
+        return isSymmetry( tree.left , tree.right )
+    }else{
+        return true
     }
 }
-console.log(isSymmetry(tree))
 
-
-
+console.log(partOne(tree))
 
 
 
