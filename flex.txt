@@ -1,0 +1,42 @@
+1.flex布局
+
+    弹性布局的意思
+
+    第一步：设置display为flex ，这是父元素需要设置的
+
+    第二部：设置主轴的方向，通俗的讲就是子元素如何进行排列。
+
+           flex-direction: row            从左到右
+           flex-direction：roe-reverse    从右到左
+           flex-direction：column         从上到下
+           flex-direction：column-reverse 从下到上
+    
+    第三部：设置主轴的对齐方式
+
+            justify-content:flex-start      左对齐
+            justify-content:flex-end        右对齐
+            justify-content:content         中间对齐
+            justify-content：space-between  两边对齐，元素之间的间距相等
+            justify-content：space-around   每个项目两侧的距离相等，所以项目之间的间距是与边框距离的一倍
+    
+    第四部：设置交叉轴的对齐方式
+
+            align-items：flex-start     起点对齐
+            align-items：flex-end       终点对齐
+            align-items：center         中点对齐
+            align-items：stretch        如果项目未设置高度或者auto，将占满这个容器
+            align-items：baseline       项目的第一行文字的基线对齐。
+    
+    第五部：设置主轴排不下该如何操作
+
+            flex-wrap：nowrap       不换行
+            flex-wrap：wrap         换行，第一行在上方
+            flex-wrap：wrap-reverse 换行，第一行在下方
+
+    第六部分：flex ：flex-grow flex-shrink flex-basis
+            
+            （1）flex-grow：定义元素的放大比例，默认是0，即如果存在剩余空间，也不放大。如果所有的元素的属性都为1，那么他们将等分剩余空间，如果一个元素为2，其余为1，那么前者占据的剩余空间将比其他项多一倍。
+
+            （2）flex-shrink：定义元素的缩小比例，默认是1，如果项目不足，则该项目进行缩小。如果设置为0，其余为1.那么当空间不足缩小时，前者不缩小。
+
+            （3）flex-basis：定义了元素在分配多余空间之前，项目占据的主轴空间，默认是auto，就是指项目原本的大小，还可以设置为固定的px，就是占据的空间大小
