@@ -68,7 +68,7 @@ function partThree(arr) { //es5中常用，两个for循环。第一个for循环�
 function partFour(arr) { //这种方法与indexOf类似
     var arra = [];
     for (var i = 0; i < arr.length; i++) {
-        if (!arra.includes(arr[i])) {//includes 检测数组是否有某个值 ， includes包含 返回boolean值 ， true或者false,接受两个参数，丢一个参数为必须，需要查找的元素值，第二个参数为可选值，从哪里开始寻找。默认是0
+        if (!arra.includes(arr[i])) {//  检测数组是否有某个值 ， includes包含 返回boolean值 ， true或者false,接受两个参数，丢一个参数为必须，需要查找的元素值，第二个参数为可选值，从哪里开始寻找。默认是0
             arra.push(arr[i]);
         }
     }
@@ -125,7 +125,7 @@ function partSix(arr) {
 
 
 
-`   个人理解为累加器
+`   个人理解为累加器 不会改变原数组
     arr.reduce(callback,[initiaValue])
     callback: 是一个函数，这个函数可接受4个参数，前两个是必须的。
         1.previousValue （上一次调用回调返回的值，或者是提供的初始值（initialValue））
@@ -160,7 +160,23 @@ Array.prototype.fakeReduce = function fakeReduce(fn, base) {
   
     return newValue;
   };
-  
+`自己实现的-------------------------------------------`
+    var arr = [1,2,23,3]
+    var _arr = arr.reduce(function(pre,value){
+        return pre+value
+    },0)
+    console.log(arr,_arr)
+    Array.prototype.myreduce = function(func , pre) {
+        let _pre = 0
+        if (arguments[1]) {
+            _pre = arguments[1]
+        }
+        let _this = this
+        for (let i = 0; i < _this.length; i++) {
+            _pre = func.call(null , _this[i] , i , _this)
+        }
+        return _pre
+    }
 
 `----------------------------------------------------------`
 
@@ -197,6 +213,24 @@ list.splice(1,0,5,4,3); // 表示在下标为1处依次添加5/4/3三个元素
 console.log(list); // [1,5,4,3,2,3]
 
 `----------------------------------------------------------`
+
 `
-    flex布局
+    forEach
+    不会返回任何值，只是用来执行回调
+    第二个的参数：绑定第一个参数中this的指向
 `
+var that = this
+var b = 2222
+var a = {
+    b:1,
+    c:function(){
+        [1,2,3].forEach(function(value,index){
+            console.log(this.b)
+        },that)
+    }
+}
+a.c()
+`
+    这里的打印出来的内容为2222，把第一个参数中回调方法中的this指向了第二个参数
+`
+
