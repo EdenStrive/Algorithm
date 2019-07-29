@@ -125,7 +125,8 @@ function partSix(arr) {
 
 
 
-`   个人理解为累加器 不会改变原数组
+`   
+    个人理解为累加器 不会改变原数组
     arr.reduce(callback,[initiaValue])
     callback: 是一个函数，这个函数可接受4个参数，前两个是必须的。
         1.previousValue （上一次调用回调返回的值，或者是提供的初始值（initialValue））
