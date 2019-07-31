@@ -38,15 +38,23 @@ var deepCopy = function(obj) {
 }
 
 
-//深度优先
-function DFSDeepClone(obj , vistied = new Set()){
+//深度优先( 递归 )
+function DFSDeepClone(obj, visited = new Set()){
     let res = {}
-    if (getType(obj)==='Object' || getType(obj) === 'Array') {
-        
-    }else if(typeof obj === 'function'){
-        
-    } else{
+    if (getType(obj)==="Object" || getType(obj) === "Array") {
+         res = getType(obj)==="Object" ? {} : []
+         if (!visited.has(obj)) { //利用has来处理自环
+             visited.add(obj)
+             Object.keys(obj).forEach(k =>{
+                 res[k] = DFSDeepClone(obj[k] , visited)
+             })
+         }
+    }else if(typeof obj == 'function'){
+        res = eval(`(${obj.toString()})`)
+    }else{
         res = obj
     }
     return res
 }
+
+//广度优先 

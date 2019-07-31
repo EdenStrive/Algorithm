@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+//工具函数：获取 类型
+const _toString = Object.prototype.toString
+function getType(obj){
+    return _toString.call(obj).slice( 8 , -1 )
+}
+
+let obj = {
+  a: 1,
+  b: {
+    c: 3,
+    d: function(){console.log(1)},
+  },
+}
+obj.c = obj.b
+obj.b.c = obj.c
+
+console.log(obj)
+
+
+function DFSDeepClone(obj, vistied = new Set()) {
+  let res = {}
+  if (getType(obj) === 'Object' || getType(obj) === 'Array') {
+    if (vistied.has(obj)) {
+      // 处理环状结构
+      res = obj
+    } else {
+      vistied.add(obj)
+      res = getType(obj) === 'Object' ? {} : []
+      Object.keys(obj).forEach(k => {
+        res[k] = DFSDeepClone(obj[k], vistied)
+      })
+    }
+  } else if (typeof obj === 'function') {
+    res = eval(`(${obj.toString()})`)
+  } else {
+    res = obj
+  }
+ 
+  return res
+}
+
+let obj1 = DFSDeepClone(obj)
+console.log(obj1)
+
+</script>
+</html>
