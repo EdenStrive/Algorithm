@@ -16,14 +16,32 @@
             1.使用lodash的深浅拷贝函数： _.deepClone(object) _.deepClone(object) 来进行对象的深拷贝
             2.使用下面自己写的深拷贝函数：深度优先、广度优先
 `
-
+var obj = {
+    a:1,
+    b:{
+        c:2,
+        d:function(){
+            console.log(3)
+        }
+    }
+}
+obj.c = obj.b
+obj.b.c = obj.c
+console.log(obj)
 
 //工具函数：获取 类型
-const _toString = Object.prototype.toString
-function getType(obj){
-    return _toString.call(obj).slice( 8 , -1 )
-}
+`
+    这里写一个获取类型的方法是用于解决 typeof 无法判断object 与 array
 
+    这里为什么要使用object原型上面的toString来判断类型呢
+    如果直接使用toString的话，就是单纯的转化为字符串
+        Array 、Function等类型作为Object的实例，都重写了toString方法。不同的对象类型调用toString方法时，
+        根据原型链的知识，调用的是对应的重写之后的toString方法（Function类型返回内容为函数体的字符串，
+        Array类型返回元素组成的字符串.....），而不会去调用Object上原型toString方法（返回对象的具体类型）
+`
+let getType = function(data){
+    return Object.prototype.toString.call(data).slice(8,-1)
+}
 
 //简单深克隆
 var deepCopy = function(obj) {
@@ -39,22 +57,27 @@ var deepCopy = function(obj) {
 
 
 //深度优先( 递归 )
-function DFSDeepClone(obj, visited = new Set()){
+function DFSDeepClone(obj, vistied = new Set()) {
     let res = {}
-    if (getType(obj)==="Object" || getType(obj) === "Array") {
-         res = getType(obj)==="Object" ? {} : []
-         if (!visited.has(obj)) { //利用has来处理自环
-             visited.add(obj)
-             Object.keys(obj).forEach(k =>{
-                 res[k] = DFSDeepClone(obj[k] , visited)
-             })
-         }
-    }else if(typeof obj == 'function'){
-        res = eval(`(${obj.toString()})`)
-    }else{
+    if (getType(obj) === 'Object' || getType(obj) === 'Array') {
+      if (vistied.has(obj)) {
+        // 处理环状结构
         res = obj
+      } else {
+        vistied.add(obj)
+        res = getType(obj) === 'Object' ? {} : []
+        Object.keys(obj).forEach(k => {
+          res[k] = DFSDeepClone(obj[k], vistied)
+        })
+      }
+    } else if (getType(obj) === 'Function') {
+      res = eval(`(${obj.toString()})`)
+    } else {
+      res = obj
     }
+   
     return res
-}
+  }
+  
 
-//广度优先 
+
