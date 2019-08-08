@@ -19,6 +19,7 @@ let debounce = (func , wait )=>{
             //此处要考虑传入函数执行时是否需要参数
             let _arr = [...arguments].slice(2)
             func.apply(func,_arr)
+            timer = 0;
         }, wait);
     }
 }
