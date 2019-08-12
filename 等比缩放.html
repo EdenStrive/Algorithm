@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+.init_div{
+    background: blue;
+    width: 50%;
+    position: relative;
+}
+</style>
+<body>
+    <div class="init_div" id="one">
+
+    </div>
+</body>
+<script>
+    `
+        这个比例的话需要自己进行设置，浏览器窗口变化触发的事件：onresize，然后动态获取dom元素宽，然后进行计算再给dom元素的高进行设置
+    `
+    var doms = document.getElementById("one")
+    window.onresize = function(){
+        var wit = doms.offsetWidth
+        var heights = wit/2
+        doms.style.height = heights+"px" //这里要注意要记得加一个字符串px
+    }
+
+    var wit = doms.offsetWidth
+    var heights = wit/2
+    doms.style.height = heights+"px" //这里要注意要记得加一个字符串px
+
+
+</script>
+</html>
