@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文件上传</title>
+</head>
+<style>
+.jindutiao{
+    width: 100%;
+    height: 100px;
+    position: relative;
+}
+#value{
+    position: relative;
+    width: 1%;
+    height: 100%;
+    background: blue;
+}
+</style>
+<body>
+    <!-- 上传文件按钮 -->
+    <input type="file" name="file" id="file">
+    <!-- 图片预览 -->
+    <p>图片预览</p>
+    <img src="" alt="" id="imgs">
+    <!-- 进度条 -->
+    <button id="up">上传</button>
+    
+    <div class="jindutiao">
+        <div id="value"></div>
+    </div>
+</body>
+<script>
+    var file = document.getElementById("file")
+    var imgs = document.getElementById("imgs")
+    var upup = document.getElementById("up")
+    var blue = document.getElementById("value")
+
+    //实例化一个formdata对象
+    var formData = new FormData()
+
+    var xhr = new XMLHttpRequest()
+
+    //进行上传
+    upup.addEventListener('click',function(event){
+        if (!file.files[0]) {
+            alert("请选择文件！")
+        }
+        formData.append('test-upload', file.files[0]);
+        console.log(file.files[0])
+        //此处有俩个回调
+        xhr.onload = uploadSuccess;
+        xhr.upload.onprogress = setProgress
+        xhr.open('post','/upload',true)
+        xhr.send(formData)
+    },false)
+
+    //进行图片显示
+    file.addEventListener('change',function(event){
+        //这个是不是图片，如果是图片就进行预览的显示
+        let flag = event.target.files[0].type.indexOf("image")>-1
+        //FileReader 对象允许web应用程序异步读取存储在用户计算机上的文件
+        if (flag) {
+            let reader = new FileReader();
+            reader.readAsDataURL(event.target.files[0]);
+            reader.onload = function (event) {
+                imgs.src = event.target.result;
+                imgs.width = '200'
+            };
+        }
+        
+    },false)
+
+    function setProgress(e){
+        `
+            e.total：是需要传输的总字节
+            e.loaded: 是已经传输的字节
+            e.lengthComputable: 如果为false那么e.total等于零
+        `
+        if (e.lengthComputable) {
+            let total = e.total
+            let loaded = e.loaded
+            let complete = (loaded/total)*100
+            let value = Math.ceil(complete)
+            blue.style.width = value+"%"
+        }
+    }
+    
+    // 成功上传
+    function uploadSuccess() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert("上传成功")
+        }
+    }
+</script>
+</html>

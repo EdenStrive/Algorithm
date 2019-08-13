@@ -38,7 +38,6 @@ let tree = {
 }
 //存在bug
 function isSymmetry(leftTrees,rightTrees){
-
         //对比左右两子树的是否为对称
         let leftTree = leftTrees
         let rightTree = rightTrees

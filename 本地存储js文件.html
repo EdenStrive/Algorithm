@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 
+        1.缓存css、js到LocalStorage
+        2.调用本地缓存css/js拼接到HTML页面
+
+     -->
+ <script type="text/javascript">
+        //入口函数
+        if (window.localStorage) {
+            initJs();
+            initCss("css", "reset.css");
+        } else {
+            alert("不能使用本地缓存");
+            addFile("http://libs.baidu.com/jquery/2.0.0/jquery.min.js", "js");
+            addFile("/gfdzp201508257998/Turntable/Script/whir.turntable.js", "js");
+            addFile("/gfdzp201508257998/Turntable/Style/css_whir.css", "css");
+        }
+
+
+        //第一步：加载页面js：先加载jQuery后加载用户脚本
+        function initJs() {
+            var name = "jquery";//存储key的name
+            var url = "js/jquery-1.9.1.min.js";
+            var xhr;
+            var js = window.localStorage ? localStorage.getItem(name) : "";
+            if (js == null || js.length == 0) {
+                if (window.ActiveXObject) {
+                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                } else if (window.XMLHttpRequest) {
+                    xhr = new XMLHttpRequest();
+                }
+                xhr.open("GET", url);
+                xhr.send(null);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        js = xhr.responseText;
+                        localStorage.setItem(name, js);
+                        js = js == null ? "" : js;
+                        addTxt(js, "js");
+                        initTurntable(); //确保先引用Jquery
+                    }
+                };
+            } else {
+                addTxt(js, "js");
+                initTurntable();
+            }
+        }
+
+        //加载自定义脚本
+        function initTurntable() {
+            var name = "zidingyi";
+            var url = "js/zidingyi.js";
+            var xhr;
+            var js = window.localStorage ? localStorage.getItem(name) : "";
+            if (js == null || js.length == 0) {
+                if (window.ActiveXObject) {
+                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                } else if (window.XMLHttpRequest) {
+                    xhr = new XMLHttpRequest();
+                }
+                xhr.open("GET", url);
+                xhr.send(null);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        js = xhr.responseText;
+                        localStorage.setItem(name, js);
+                        js = js == null ? "" : js;
+                        addTxt(js, "js");
+                    }
+                };
+            } else {
+                addTxt(js, "js");
+            }
+        }
+
+        //第二步：初始化Css
+        function initCss(name, url) {
+            var xhr;
+            var css = window.localStorage ? localStorage.getItem(name) : "";
+            if (css == null || css.length == 0) {
+                if (window.ActiveXObject) {
+                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                } else if (window.XMLHttpRequest) {
+                    xhr = new XMLHttpRequest();
+                }
+                xhr.open("GET", url);
+                xhr.send(null);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        css = xhr.responseText;
+                        localStorage.setItem(name, css);
+                        css = css == null ? "" : css;
+                        css = css.replace(/images\//g, "style/images/");
+                        addTxt(css, "css");
+                    }
+                };
+            } else {
+                css = css.replace(/images\//g, "style/images/");
+                addTxt(css, "css");
+            }
+        }
+
+        //辅助方法1：动态添加js，css文件引用
+        function addFile(url, fileType) {
+            var head = document.getElementsByTagName('HEAD').item(0);
+            var link;
+            if (fileType == "js") {
+                link = document.createElement("script");
+                link.type = "text/javascript";
+                link.src = url;
+            } else {
+                link = document.createElement("link");
+                link.type = "text/css";
+                link.rel = "stylesheet";
+                link.rev = "stylesheet";
+                link.media = "screen";
+                link.href = url;
+            }
+            head.appendChild(link);
+        }
+
+        //辅助方法2：动态添加js，css文件内容 
+        function addTxt(text, fileType) {
+            var head = document.getElementsByTagName('HEAD').item(0);
+            var link;
+            if (fileType == "js") {
+                link = document.createElement("script");
+                link.type = "text/javascript";
+                link.innerHTML = text;
+            } else {
+                link = document.createElement("style");
+                link.type = "text/css";
+                link.innerHTML = text;
+            }
+            head.appendChild(link);
+        }
+    </script>
+
+</body>
+</html>

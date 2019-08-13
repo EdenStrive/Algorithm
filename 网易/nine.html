@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>九宫格布局</title>
+</head>
+<style>
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    /* 第一种 */
+    .square{
+        border: 1px solid black;
+        position: relative;
+        width: 100%;
+        margin-bottom: 200px
+    }
+    .square ul{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .square ul li{
+        border: 1px solid rgb(200, 46, 46);
+        list-style-type: none;
+        flex-grow:1;
+        width: 30%;
+        text-align: center;
+    }
+    /* 第二种 */ 
+    .square_two{
+        border: 1px solid black;
+        position: relative;
+        width: 100%;
+        margin-bottom: 200px;
+    }
+    .square_two ul{
+        position: relative;
+        width: 100%;
+    }
+    .square_two ul li{
+        border: 1px solid rgb(200, 46, 46);
+        list-style-type: none;
+        display: inline-block;
+        width: 30%;
+    }
+    /* 第三种 */
+    .square_thrid{
+        display: grid;
+        border: 1px solid gray;
+        grid-template-columns: 100px 100px 100px;
+        grid-template-rows: 100px 100px 100px;
+    }
+    .square_thrid li{
+        list-style-type: none;
+        display: block;
+        border: 1px solid red
+    }
+</style>
+<body>
+    <div class="square">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+        </ul>
+    </div>
+    
+    <div class="square_two">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+        </ul>
+    </div>
+
+    <div class="square_thrid">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+        <li>9</li>
+    </div>
+
+    还有一种table tr td的方法
+</body>
+</html>
