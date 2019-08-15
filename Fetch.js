@@ -75,3 +75,25 @@ let options = {
 }
 
 fetch("http://119.29.183.36:5000/count",{options})
+
+
+//设置超时时间，以及计算超时时间
+let data = new Data();
+let old_timer = data.getSeconds()
+Promise.race([
+    fetch(URL),
+    new Promise(function(resolve,reject){
+        setTimeout(()=> reject(new Error('request timeout')),2000)
+    })])
+    .then((data)=>{
+        console.log("fetch请求没有超时")
+    })
+    .catch(()=>{
+        console.log("fetch请求超时了")
+    })
+    //如果fetch 在超时后返回了，这then里面计算当前的时间，减去发送请求的时间然后再减去设置的两秒的请求时间，就是超出的时间
+    .then(()=>{
+        let new_timer  =  data.getSeconds()
+        let value = new_timer - old_timer - 2
+        return value
+    })
