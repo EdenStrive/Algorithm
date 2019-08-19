@@ -1,88 +1,69 @@
-`
-    实现一个promise
-`
-function _Promise(fn){
-    this.resolve = function(value){
-        this.status = "resolved"
-        this.value = value
-        this.then()
-    }
-    
 
-
-    //当前的状态 状态的改变时不可变的
-    this.status = "pending"
-    this.value
-    //判断传入进来的参数是否为函数
-    let flag = Object.prototype.toString.call(fn).slice(8,-1)
-    if (flag == "Function") {
-        fn.call( this , this.resolve.bind(this) )
-    }else{
-        throw Error("传入的参数是一个函数")
-    }
-    this.then = function(One , Two){
-        if(this.status == "resolved"){
-            One(this.value)
-        }
-    }
-   
-}
-
-
-let promise = new _Promise((resolve, reject) => {
-    //这里放入我们要执行的函数，可能是同步，也可能是异步, 这里我们就来写一个异步的执行
-    setTimeout(() => {
-        resolve('hello');
-    }, 100)
-})
-promise.then(res =>{
-    console.log(res)
-})
- promise.then(data => {
-     console.log(data);
-     return new Promise(function(res, rej) {
-         setTimeout(function() {
-             console.log(2);
-             res();
-         }, 100)
-     })
- }, err => {console.log(err)})
-
-
-
-`------------------------------------------------------------------------------------------------------------`
+`--------------------------------------------------------------------------------------------------------------------`
 
 function _Promise(fn) {
-    var value = null, succallbacks = [], failcallbacks = [];
-    this.then = function (fulfilled, rejected) {
-        succallbacks.push(fulfilled);
-        failcallbacks.push(rejected);
-    }
-
+    //成功的回调 失败的回调
+    var succallbacks = [], failcallbacks = [];
+    //设置状态
+    var flag = "pending"
+    
     function resolve(value) {
-         succallbacks.forEach((callback) => {
-             callback(value);
-         })
+        if (flag == "pending") {
+            flag = "resolve"
+            setTimeout(() => {
+                succallbacks.forEach((callback) => {
+                    callback(value);
+                })
+            })
+        }
     }
 
     function reject(value) {
-        failcallbacks.forEach((callback) => {
-            callback(value);
-        })
+        if (flag == "pending") {
+            flag = "reject"
+            setTimeout(() => {
+                failcallbacks.forEach((callback) => {
+                    callback(value);
+                })
+            })
+        }
+    }
+
+    //这里其实就是传一个参数，真正的执行 是在resolve的时候
+    this.then = function (fulfilled, rejected) {
+        succallbacks.push(fulfilled);
+        failcallbacks.push(rejected);
+        //执行完then 后保证可以执行 catch
+        return this
+    } 
+
+    this.catch = function(errfn){
+        failcallbacks.push(errfn)
+        //这里不用加this，因为catch return不会产生链式调用
     }
 
     fn(resolve, reject);
 }
 
+`--------------------------------------------------------------------------------------------------------------------`
+
 function fn(num) {
     return new _Promise((resolve, reject) => {
         setTimeout(() => {
-            resolve(num); //1   去掉time 则不会执行
-        }, 1000)
+            resolve(num); 
+            //因为状态不可逆，所以catch捕获不到
+            reject(num)
+        }, 1000);  
     })
 }
 
-fn(1).then(data => {
+fn(1)
+    .then(data => {
         console.log(data);
-    }
-);
+        return 1
+    },err=>{
+        console.log(err)
+    })
+    .catch(err =>{
+        console.log(err)
+    })
