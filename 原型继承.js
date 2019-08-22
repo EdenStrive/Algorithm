@@ -29,3 +29,55 @@ function dog(name){
 }
 dog.prototype = new Animal()
 dog.prototype.constructor = dog
+
+
+
+
+
+`
+  版本二：----------------------
+`
+function Person(name,age){
+  this.name = 1;
+  this.age = age
+  this.sum = function(){
+    console.log(this.name)
+  }
+}
+Person.prototype.age = 10;
+
+`
+  --------------------------
+  原型链继承：
+`
+function Per(){
+  
+}
+Per.prototype = new Person()
+var per1 = new Per()
+var per2 = new Per()
+per1 instanceof Per//true
+per1 instanceof Person//true
+per1 == per2 //false
+//缺点： 1.新实例无法向父类构造函数进行传参
+//      2.继承单一，所有通过Per实例后的对象都是一样的（无论你穿不穿地参数）
+
+
+`
+  --------------------------
+  组合继承：
+`
+function SubType(){
+  Person.call(this,...arguments);
+}
+SubType.prototype = new Person();
+var sub = new SubType("gegegege");
+var sub1 = new SubType("gegegege222");
+sub instanceof SubType//true
+sub instanceof Person//true
+//没有什么缺点，就是调用了两次父类构造方法
+
+`
+  -------------------------
+  寄生继承：
+`

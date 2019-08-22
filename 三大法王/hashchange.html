@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>hashchange</title>
+</head>
+<body>
+    <a href="#/login">登陆页面</a>
+    <a href="#/sign">注册页面</a>
+    <p id="content">显示地方</p>
+</body>
+<script>
+    window.addEventListener('load', function() {
+        switch (location.hash) {
+            case "#/login":
+                document.getElementById('content').innerHTML = "登陆页面"
+                break;
+
+            case "#/sign":
+                document.getElementById('content').innerHTML = "注册页面"
+                break;
+
+            default:
+                break;
+        }
+    }, false)
+
+
+    window.addEventListener('hashchange',function(){
+        console.log(location.hash)
+        switch (location.hash) {
+            case "#/login":
+                document.getElementById('content').innerHTML = "登陆页面"
+                break;
+
+            case "#/sign":
+                document.getElementById('content').innerHTML = "注册页面"
+                break;
+
+            default:
+                break;
+        }
+    })
+</script>
+</html>
