@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" id="input">
+  <p id="p"></p>
+</body>
+<script>
+  let inp = document.getElementById("input");
+
+
+  `-----------------------------------------------
+    object.defineProperty方法实现的简易绑定
+    缺点：无法检测数组下标的变化，vue是通过内部处理之后才可以进行监听的
+         只能劫持到对象中具体的属性，所以我们要对对象的的每个属性进行遍历，如果对象的属性也是一个对象，那么显然劫持一个完整的对象是更好的选择。
+
+    proxy代理实现简易的双向绑定
+    代理：可以监听数组对象的整体变化，通过key进行访问对象以及数组的方法属性
+    特点：可以劫持整个对象，并且返回一个新的对象
+    缺点：es6提供，兼容不太好吧
+    
+  `
+  // let obj = {
+  //   value:null
+  // }
+
+  // inp.addEventListener('input',function(e){
+  //   obj.value = e.target.value
+  // })
+  // Object.defineProperty(obj,"value",{
+  //   get:function(){
+  //     console.log("进行读取")
+  //   },
+  //   set:function(e){
+  //     console.log("进行设置")
+  //     document.getElementById("p").innerHTML = e
+  //   }
+  // })
+
+
+
+
+  // let obj = {
+  //   value:null
+  // }
+
+  // obj = new Proxy(obj,{
+  //   get(target,key){
+  //     return target[key]
+  //   },
+  //   set(target,key,value){
+  //     target[key] = value;
+  //     document.getElementById("p").innerHTML = value
+  //   }
+  // })
+  // console.log(obj.value)
+  // inp.addEventListener('input',function(e){
+  //   obj.value = e.target.value
+  // })
+</script>
+</html>

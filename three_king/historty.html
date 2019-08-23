@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>前端路由实现</title>
+    <style>
+        .warp{
+            width:400px;
+            height:400px;
+            border:1px solid grey;
+            margin:0 auto;
+        }
+        .nav{
+            border-bottom:1px solid grey;
+        }
+        .nav li{
+            display:inline-block;
+            list-style:none;
+        }
+        .nav li a{
+            display:inline-block;
+            text-decoration: none;
+            padding:10px 15px;
+        }
+        .router{
+            padding:20px;
+        }
+        a{
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body>
+    <section class="warp">
+        <div class="nav">          
+            <ul id="hash">
+                <li><a href="javascript:void(0)" id = "index">首页</a></li> 
+                <li><a href="javascript:void(0)" id = "admin">新闻</a></li>
+                <li><a href="javascript:void(0)" id = "about">关于</a></li>
+            </ul> 
+        </div>
+        <div id="router" class="router">
+            <!-- 内容加载区域 -->
+            待显示的内容
+        </div>
+    </section>
+    <script>
+    `
+        h5新增的两个history api ： history.pushState  history.replaceState
+
+        两个方法都接受三个参数
+            1.状态对象：一个js对象，与用pushState方法创建的新历史记录条目关联。
+                值得注意的是：javascript脚本执行 window.history.pushState 和 window.history.replaceState 不会触发 onpopstate 事件。
+                只有自己手动点击浏览器的前进后退的按钮的时候才会触发popstate这个方法！！！！！
+
+            2.标题（title）：火狐浏览器目前会忽略，还是传入一个null比较好
+
+            3.地址（url）：就是一个url吧，不解释
+        
+            window.history.pushState(null, null, "hell");
+
+            window.history.pushState(null, null, "/hell");
+
+            window.history.pushState(null, null, "#/hello");
+
+            window.history.pushState(null, null, "?name=");
+
+            相同点：两个api都会操作浏览器的历史记录，而不会引起页面的刷新
+            不同之处：pushState会增加一条新的历史记录，而replaceState则会替换当前的历史记录。
+    `
+    let Route = window.history;
+    //首先进行初始化
+    window.onload = function(){
+        Route.pushState(null,null,'');
+    }
+    //进行事件委托绑定进行切换路由
+    document.getElementById("hash").addEventListener('click',function(e) {
+        let id = e.target.id;
+        let state = {
+            states:id
+        }
+        Route.pushState(state,null,id)
+        document.getElementById('router').innerHTML = id
+    })
+    //路由切换的监听
+    window.addEventListener('popstate',function(e){
+        console.log(e.state);
+        document.getElementById('router').innerHTML = e.state.states
+    })
+
+    </script>
+
+</body>
+</html>
+
