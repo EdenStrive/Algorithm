@@ -40,3 +40,21 @@ let throttle = function(func , wait ){
         return
     }
 }
+
+`
+    1.document.body.scrollTop (ie)  document.documentElement.scrollTop (非ie)  ：获得页面可视区顶部距离页面顶部的距离
+    2.document.documentElement.clientHeight (页面可视区的高度)
+    3.dom元素.offsetTop 元素到达页面顶部的距离
+    4.document.documentElement.scrollHeight  页面的高度
+`
+`
+    移动端手指滑动：
+`
+window.addEventListener('touchstart',function(e){
+    console.log("start+x",e.targetTouches[0].pageX)
+    console.log("start+y",e.targetTouches[0].pageY)
+})
+window.addEventListener('touchend',function(e){
+    console.log("end+x",e.changedTouches[0].pageX)
+    console.log("end+y",e.changedTouches[0].pageY)
+})

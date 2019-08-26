@@ -79,5 +79,12 @@ sub instanceof Person//true
 
 `
   -------------------------
-  寄生继承：
+  寄生组合继承：
 `
+function F(){};
+F.prototype = Person.prototype;
+function sub(){
+  Person.call(this,...arguments)
+}
+sub.prototype = new F()
+var flag = new sub()
