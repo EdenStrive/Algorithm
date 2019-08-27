@@ -96,6 +96,7 @@ function partSix(arr) {
     })
     return _arr
 }
+
 // console.log(partSix(arr))
 
 `
