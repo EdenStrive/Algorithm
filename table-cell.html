@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+.table-wrap{
+    width: 300px;
+    height: 300px;
+    border:1px solid black;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+.woyao{
+    display: inline-block;
+    background: black;
+    width: 100px;
+    height: 100px;
+}
+
+</style>
+<body>
+    <div class="table-wrap">
+        <div class="woyao"></div>
+    </div>
+</body>
+<script>
+`   
+    水平居中
+    父：text-align:center; 
+    子：display:inline-block;
+    只对行内元素有用，这个时候需要把需要水平居中的盒子display变成 inline-block
+
+    垂直居中
+    父：display：table-cell;vertical-align: middle;
+    子：可以为block或者inline-block或inline;
+`
+</script>
+</html>
